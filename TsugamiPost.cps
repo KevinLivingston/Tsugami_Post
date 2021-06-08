@@ -5,7 +5,7 @@
   Doosan Lathe post processor configuration.
 
   $Revision: 43266 6c4c5d47530789703aabfa918ce520add4161286 $
-  $Date: 2021-05-17 11:31:45 $
+  $Date: 2021-06-08 7:23pm $
 
   FORKID {C7A4BD6C-CF7A-4299-BF94-3C18351E8FA7}
 */
