@@ -707,17 +707,17 @@ function getCode(code, spindle) {
       machineState.mainSpindleIsActive = true;
       machineState.subSpindleIsActive = false;
       machineState.liveToolIsActive = false;
-      return 11;
+      return 1;
     case SPINDLE_LIVE:
       machineState.mainSpindleIsActive = false;
       machineState.subSpindleIsActive = false;
       machineState.liveToolIsActive = true;
-      return 12;
+      return 2;
     case SPINDLE_SUB:
       machineState.mainSpindleIsActive = false;
       machineState.subSpindleIsActive = true;
       machineState.liveToolIsActive = false;
-      return 13;
+      return 21;
     }
     break;
   case "RIGID_TAPPING":
