@@ -1174,12 +1174,11 @@ function onOpen() {
     writeBlock(
       gFormat.format(0),
       gFormat.format(18),
-      gUnitModal.format((unit == IN) ? 20 : 21),
+      gUnitModal.format((unit == MM) ? 20 : 21),
       gFormat.format(40),
       gFormat.format(54),
       gFormat.format(80),
-      gFormat.format(99),
-      mFormat.format(getCode("INTERFERENCE_CHECK_OFF", SPINDLE_MAIN))
+      gFormat.format(99)
     );
   } else {
     switch (unit) {
@@ -1193,9 +1192,7 @@ function onOpen() {
 
     onCommand(COMMAND_CLOSE_DOOR);
     
-    if (gotSecondarySpindle) {
-      writeBlock(mFormat.format(getCode("INTERFERENCE_CHECK_OFF", SPINDLE_MAIN)));
-    }
+    
   }
 
   if (getProperty("gotChipConveyor")) {
@@ -2012,9 +2009,6 @@ function onSection() {
     onCommand(COMMAND_COOLANT_OFF);
     goHome();
     mInterferModal.reset();
-    if (gotSecondarySpindle) {
-      writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
-    }
     if (getProperty("optionalStop")) {
       onCommand(COMMAND_OPTIONAL_STOP);
       gMotionModal.reset();
@@ -2334,10 +2328,7 @@ function onSection() {
   }
 
   // Turn off interference checking with secondary spindle
-  if (getSpindle(PART) == SPINDLE_SUB) {
-    writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
-  }
-
+  
   // Live Spindle is active with synchronized C-axes
   // need to wait until after spindle speed is output to synchronize the C-axes
   if ((tempSpindle == SPINDLE_LIVE) && machineState.spindlesAreAttached) {
@@ -3559,7 +3550,6 @@ function onCycle() {
         onDwell(cycle.dwell);
         // writeBlock(mFormat.format(getCode("COOLANT_THROUGH_TOOL_OFF", getSecondarySpindle())));
         mInterferModal.reset();
-        writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
       }
       machineState.stockTransferIsActive = true;
       break;
@@ -3622,7 +3612,6 @@ function onCycle() {
         writeBlock(mFormat.format(getCode("COOLANT_AIR_OFF", SPINDLE_SUB)));
       }
 
-      writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
 
       // need to orientate spindle after cleaning out chips, since spindles rotate during coolant air
       transferOrientation = 0;
@@ -4681,7 +4670,6 @@ function engageTailStock(engage) {
           error(localize("Only the sub spindle can be used as a live center tail stock."));
         }
         var rapidPosition = getProperty("useTailStockPositioning") == "offset" ?  getGlobalParameter("stock-upper-z") + getProperty("useTailStockPosition") : getProperty("useTailStockPosition");
-        writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(PART))));
         gMotionModal.reset();
         moveSubSpindle(RAPID, rapidPosition, 0, getProperty("useTailStockPositioning") == "machine", "", true);
         // writeBlock(mFormat.format(getCode("TORQUE_SKIP_ON", getSpindle(PART))), formatComment("TORQUE SKIP ON"));
