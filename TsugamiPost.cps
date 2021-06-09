@@ -265,9 +265,9 @@ properties = {
     value: 0,
     scope: "post"
   },
-  useG28Zhome: {
-    title: "Use G28 Z home",
-    description: "Specifies whether to use a G28 Z home position.",
+  useG30Zhome: {
+    title: "Use G30 Z home",
+    description: "Specifies whether to use a G30 Z home position.",
     group: 4,
     type: "boolean",
     value: true,
@@ -275,7 +275,7 @@ properties = {
   },
   zHomePosition: {
     title: "Z home position",
-    description: "Z home position, only output if Use G28 Z Home is not used.",
+    description: "Z home position, only output if Use G30 Z Home is not used.",
     group: 4,
     type: "number",
     value: 0,
@@ -2667,9 +2667,9 @@ function goHome() {
   if (gotYAxis) {
     yAxis = "V" + yFormat.format(0);
   }
-  writeBlock(gMotionModal.format(0), gFormat.format(28), "U" + xFormat.format(0), yAxis);
-  if (getProperty("useG28Zhome")) {
-    writeBlock(gMotionModal.format(0), gFormat.format(28), "W" + zFormat.format(0));
+  writeBlock(gMotionModal.format(0), gFormat.format(30), "U" + xFormat.format(0), yAxis);
+  if (getProperty("useG30Zhome")) {
+    writeBlock(gMotionModal.format(0), gFormat.format(30), "W" + zFormat.format(0));
   } else {
     gMotionModal.reset();
     zOutput.reset();
@@ -4329,15 +4329,15 @@ function moveSubSpindle(_method, _position, _feed, _useMachineFrame, _comment, _
   }
   switch (_method) {
   case HOME:
-    if ((getProperty("useTailStock") == "false") || !machineState.tailstockIsActive) { // don't retract B-axis if used as a tailstock
+   /* if ((getProperty("useTailStock") == "false") || !machineState.tailstockIsActive) { // don't retract B-axis if used as a tailstock
       writeBlock(
         gMotionModal.format(0),
-        gFormat.format(28),
+        gFormat.format(30),
         gFormat.format(53),
         subOutput.format(0),
         conditional(_comment, formatComment(_comment))
       );
-    }
+        }*/
     break;
   case RAPID:
     writeBlock(
@@ -4407,7 +4407,7 @@ function clampChuck(_spindle, _clamp) {
 }
 
 function unwindCAxis() {
-  writeBlock(gMotionModal.format(0), gFormat.format(28), "H" + abcFormat.format(0));
+  writeBlock(gMotionModal.format(0), gFormat.format(30), "H" + abcFormat.format(0));
 }
 
 function onCommand(command) {
@@ -4424,6 +4424,7 @@ function onCommand(command) {
   case COMMAND_UNLOCK_MULTI_AXIS:
     writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", getSpindle(PART))));
     break;
+
   case COMMAND_OPEN_DOOR:
     if (gotDoorControl) {
       writeBlock(mFormat.format(52)); // optional
