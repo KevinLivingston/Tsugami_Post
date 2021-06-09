@@ -1195,9 +1195,7 @@ function onOpen() {
     
   }
 
-  if (getProperty("gotChipConveyor")) {
-    onCommand(COMMAND_START_CHIP_TRANSPORT);
-  }
+  
   
   // automatically eject part at end of program
   if (getProperty("autoEject") != "false") {
@@ -4426,12 +4424,6 @@ function onCommand(command) {
   case COMMAND_UNLOCK_MULTI_AXIS:
     writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", getSpindle(PART))));
     break;
-  case COMMAND_START_CHIP_TRANSPORT:
-    writeBlock(mFormat.format(24));
-    break;
-  case COMMAND_STOP_CHIP_TRANSPORT:
-    writeBlock(mFormat.format(25));
-    break;
   case COMMAND_OPEN_DOOR:
     if (gotDoorControl) {
       writeBlock(mFormat.format(52)); // optional
@@ -4765,9 +4757,7 @@ function onClose() {
 
   writeln("");
 
-  if (getProperty("gotChipConveyor")) {
-    onCommand(COMMAND_STOP_CHIP_TRANSPORT);
-  }
+  
 
   // Move to home position
   goHome();
