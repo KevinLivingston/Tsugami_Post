@@ -2669,7 +2669,6 @@ function goHome() {
   }
   writeBlock( gFormat.format(30), "U" + xFormat.format(0));
   if (getProperty("useG30Zhome")) {
-    writeBlock(gMotionModal.format(0), gFormat.format(30), "W" + zFormat.format(0));
   } else {
     gMotionModal.reset();
     zOutput.reset();
