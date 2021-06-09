@@ -59,10 +59,8 @@ properties = {
     group: 0,
     type: "enum",
     values: [
-      {title: "Puma", id: "PUMA"},
-      {title: "Lynx", id: "LYNX"},
       {title: "Lynx with Y-axis", id: "LYNX_YAXIS"},
-      {title: "Puma MX", id: "PUMA_MX"}
+      {title: "Swiss", id: "TSUGAMI"}
     ],
     value: "PUMA",
     scope: "post"
@@ -94,7 +92,7 @@ properties = {
   },
   useSpindlePcodes: {
     title: "Use P-codes for spindle selection",
-    description: "Enable if P11, P12, etc. are used for spindle selection.  Disable if unique M-codes are used for spindle selection.",
+    description: "Enable if P1, P2, etc. are used for spindle selection.  Disable if unique M-codes are used for spindle selection.",
     group: 1,
     type: "boolean",
     value: true,
