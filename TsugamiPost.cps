@@ -613,7 +613,7 @@ function getCode(code, spindle) {
     return (spindle == SPINDLE_MAIN) ? 35 : 135;
   case "DISABLE_C_AXIS":
     machineState.cAxisIsEngaged = false;
-    return (spindle == SPINDLE_MAIN) ? 34 : 134;
+    return (spindle == SPINDLE_MAIN) ? 51 : 134;
   case "POLAR_INTERPOLATION_ON":
     return 12.1;
   case "POLAR_INTERPOLATION_OFF":
@@ -677,7 +677,7 @@ function getCode(code, spindle) {
   case "LOCK_MULTI_AXIS":
     return (spindle == SPINDLE_MAIN) ? 89 : 189;
   case "UNLOCK_MULTI_AXIS":
-    return (spindle == SPINDLE_MAIN) ? 90 : 190;
+    return (spindle == SPINDLE_MAIN) ? 83 : 190;
   case "CLAMP_CHUCK":
     return (spindle == SPINDLE_MAIN) ? 68 : 168;
   case "UNCLAMP_CHUCK":
