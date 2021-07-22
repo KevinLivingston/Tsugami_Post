@@ -2,8 +2,9 @@
   Copyright (C) 2012-2021 by Autodesk, Inc.
   All rights reserved.
 
-  Doosan Lathe post processor configuration.
-
+  Tsugami S205 post processor configuration.
+  Edited by : Kevin Livingston
+  Company: Allied Precision Inc.
   $Revision: 43266 6c4c5d47530789703aabfa918ce520add4161286 $
   $Date: 2021-06-08 7:23pm $
 
@@ -60,7 +61,7 @@ properties = {
     type: "enum",
     values: [
       {title: "Lynx with Y-axis", id: "LYNX_YAXIS"},
-      {title: "Swiss", id: "TSUGAMI"}
+      {title: "Tsugami", id: "S205"}
     ],
     value: "PUMA",
     scope: "post"
@@ -103,7 +104,7 @@ properties = {
     description: "Specifies whether part catcher code should be output.",
     group: 1,
     type: "boolean",
-    value: true,
+    value: false,
     scope: "post"
   },
   partCatcherPosition: {
@@ -121,7 +122,7 @@ properties = {
     type: "boolean",
     group: 1,
     presentation: "yesno",
-    value: true,
+    value: false,
     scope: "post"
   },
   maxTool: {
@@ -130,7 +131,7 @@ properties = {
     group: 2,
     type: "integer",
     range: [0, 999999999],
-    value: 24,
+    value: 27,
     scope: "post"
   },
   maximumSpindleSpeed: {
@@ -677,9 +678,9 @@ function getCode(code, spindle) {
   case "UNLOCK_MULTI_AXIS":
     return (spindle == SPINDLE_MAIN) ? 83 : 190;
   case "CLAMP_CHUCK":
-    return (spindle == SPINDLE_MAIN) ? 68 : 168;
+    return (spindle == SPINDLE_MAIN) ? 10 : 20;
   case "UNCLAMP_CHUCK":
-    return (spindle == SPINDLE_MAIN) ? 69 : 169;
+    return (spindle == SPINDLE_MAIN) ? 11 : 21;
   case "SPINDLE_SYNCHRONIZATION_PHASE":
     machineState.spindlesAreSynchronized = true;
     return 213;
@@ -2161,7 +2162,6 @@ function onSection() {
       if (!getProperty("optimizeCaxisSelect")) {
         cAxisEngageModal.reset();
       }
-      writeBlock(wcsOut/*, mFormat.format(getSpindle(PART) == SPINDLE_SUB ? 83 : 80)*/);
       writeBlock(feedMode, gPlaneModal.format(18), cAxisEngageModal.format(getCode("DISABLE_C_AXIS", getSpindle(PART))));
     } else {
       writeBlock(feedMode);
@@ -4785,7 +4785,7 @@ function onClose() {
     ejectPart();
   }
 
-  writeBlock(gFormat.format(54), mFormat.format(80));
+  writeBlock( mFormat.format(80));
 
   // Process Manual NC commands
   executeManualNC();
